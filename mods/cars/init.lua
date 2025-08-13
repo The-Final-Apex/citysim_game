@@ -998,15 +998,19 @@ local function car_step(self, dtime, moveresult)
 	local yaw = get_yaw(yaw)
 	local slowing = false
 	local lights
-	if self.lights then lights = self.lights:get_luaentity()
-		if lights.headlights then
-			self.battery = self.battery - dtime
-			if self.battery <= 0 then
-				self.battery = 0
-				cars.setlight(lights, "headlights", false)
-			end
-		end
+		
+	local lights
+	if self.lights and self.lights:get_luaentity() then
+	    lights = self.lights:get_luaentity()
+	    if lights.headlights then
+	        self.battery = self.battery - dtime
+	        if self.battery <= 0 then
+	            self.battery = 0
+	            cars.setlight(lights, "headlights", false)
+	        end
+	    end
 	end
+
 	if not self.v then self.v = 0 end
 	self.v = get_v(velocity) * get_sign(self.v)
 	--local accel = 0--def.coasting*get_sign(self.v)
